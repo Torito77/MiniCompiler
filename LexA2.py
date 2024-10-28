@@ -125,8 +125,8 @@ def addTabla(valor,tipo):
     if valor not in tablaSimbolos.keys():
         tablaSimbolos[valor] = tipo
 
-# C:\Users\elzuk\Desktop\pitón\AnalizadorLexico\codigo.txt
-ubicacion = 'C:/Users/elzuk/Desktop/pitón/AnalizadorLexico/codigo.txt'
+# C:\Users\elzuk\Desktop\pitón\MiniCompiler\codigo.txt
+ubicacion = 'C:/Users/elzuk/Desktop/pitón/MiniCompiler/codigo.txt'
 data = open(ubicacion,'r')
 
 # Depuracion de comentarios - - - - - - - - - - -
@@ -166,6 +166,8 @@ Lexema = None
 Token = None
 for tok in lexer:
 
+
+
     if Renglon != lexer.lineno:
         ListaLineas.append([])
         Renglon = lexer.lineno
@@ -181,16 +183,19 @@ for tok in lexer:
         addTabla(str(tok.value),str(tok.type))
 
 
-
 # Tabla de simbolos
-print("\n\nTabla de símbolos:")
-print("-" * 57)
-print("| {:<20} | {:<30} |".format("Lexema", "Token"))
-print("-" * 57)
+def print_symbol_table():
+    print("\n\nTabla de símbolos:")
+    print("-" * 57)
+    print("| {:<20} | {:<30} |".format("Lexema", "Token"))
+    print("-" * 57)
 
-for lexema,token in tablaSimbolos.items():
-    print("| {:<20} | {:<30} |".format(lexema, token))
+    for lexema,token in tablaSimbolos.items():
+        print("| {:<20} | {:<30} |".format(lexema, token))
 
-print("-" * 57)
+    print("-" * 57)
 
+
+print_symbol_table()
+# Lista de lineas
 print(ListaLineas)

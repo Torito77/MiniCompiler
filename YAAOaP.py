@@ -1,6 +1,6 @@
 #Yet Another Attemp Of a Compiler
 import ply.yacc as yacc
-from LexA2 import tokens, tablaSimbolos, lexer, ListaLineas  # Import tokens, symbol table, and lexer
+from LexA2 import tokens, tablaSimbolos, lexer, ListaLineas, print_symbol_table  # Import tokens, symbol table, lexer, and print_symbol_table function
 
 # Precedencia
 precedence = (
@@ -13,17 +13,24 @@ precedence = (
 # Reglas de parseo
 def p_statement_expr(p):
     '''statement : expression'''
-    print("Expression result:", p[1])
+    print("Expression result: ", p[1])
 
 def p_statement_assign(p):
     '''statement : ID ASIG expression
                  | INT ID ASIG expression'''
-    if len(p) == 4:
-        tablaSimbolos[p[1]] = p[3]  # Actualizar la tabla de simbolos
-        print(f"Assignment: {p[1]} = {p[3]}")
-    else:
-        tablaSimbolos[p[2]] = p[4]  # Actualizar la tabla de simbolos
-        print(f"Assignment: {p[2]} = {p[4]}")
+    if len(p) == 4: #Asig form ID = expression
+        if p[1] not in tablaSimbolos:
+            print(f"Error: Identifier '{p[1]}' not found in symbol table")
+        else:
+            tablaSimbolos[p[1]] = p[3]  # Actualizar la tabla de simbolos
+            print(f"Assignment: {p[1]} = {p[3]}")
+
+    elif len(p) == 5: #Asig form INT ID = expression
+        if p[2] not in tablaSimbolos:
+            print(f"Error: Identifier '{p[2]}' not found in symbol table")
+        else:
+            tablaSimbolos[p[2]] = p[4]  # Actualizar la tabla de simbolos
+            print(f"Assignment: {p[2]} = {p[4]}")
 
 def p_expression_binop(p):
     '''expression : expression SUMA expression
@@ -69,22 +76,35 @@ parser = yacc.yacc()
 # Test the parser
 def parse_input(input_text):
     lexer.input(input_text)
+    # for token in lexer:
+    #     if token.type == 'ID':
+    #         if token.value in tablaSimbolos.keys():
+    #             print(f"Identifier '{token.value}' found in symbol table.")
+    #         else:
+    #             print(f"Identifier '{token.value}' not found in symbol table.")
     result = parser.parse(input_text)
     return result
 
 
 
-
 # ProbaInador
 if __name__ == "__main__":
-    ubicacion = 'C:/Users/elzuk/Desktop/pitón/AnalizadorLexico/codigo.dep'
+
+    
+    ubicacion = 'C:/Users/elzuk/Desktop/pitón/MiniCompiler/codigo.dep'
     archivo = open(ubicacion,'r')
     c = 0
     for linea in archivo:
+        #if token not in tablaSimbolos.keys():
+
         if 'ASIG' in ListaLineas[c] and linea != "\n" :
             parse_input(linea)
+        
         if linea != "\n":
             c+=1
+    
+    print_symbol_table()
+
 
     """
     while True:
