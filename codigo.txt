@@ -1,0 +1,15 @@
+pf2024 Cruzazul
+decl
+int c=10
+int a
+c = c + 1
+c = c + 1
+cad pedro
+
+if c<=3
+
+#3hola begin
+
+a = 300 + 1000 * 2
+# diana la cubana
+end
