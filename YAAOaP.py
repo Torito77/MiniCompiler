@@ -19,18 +19,18 @@ def p_statement_assign(p):
     '''statement : ID ASIG expression
                  | INT ID ASIG expression'''
     if len(p) == 4: #Asig form ID = expression
-        if p[1] not in tablaSimbolos:
-            print(f"Error: Identifier '{p[1]}' not found in symbol table")
-        else:
+        if p[1] in tablaSimbolos.keys():
             tablaSimbolos[p[1]] = p[3]  # Actualizar la tabla de simbolos
             print(f"Assignment: {p[1]} = {p[3]}")
+        else:
+            print(f"Error: Identifier '{p[1]}' not found")
 
     elif len(p) == 5: #Asig form INT ID = expression
-        if p[2] not in tablaSimbolos:
-            print(f"Error: Identifier '{p[2]}' not found in symbol table")
-        else:
+        if p[2] in tablaSimbolos.keys():
             tablaSimbolos[p[2]] = p[4]  # Actualizar la tabla de simbolos
             print(f"Assignment: {p[2]} = {p[4]}")
+        else:
+            print(f"Error: Identifier '{p[2]}' not found")
 
 def p_expression_binop(p):
     '''expression : expression SUMA expression
@@ -98,12 +98,13 @@ if __name__ == "__main__":
         #if token not in tablaSimbolos.keys():
 
         if 'ASIG' in ListaLineas[c] and linea != "\n" :
+            #if 'INT' in ListaLineas[c]
             parse_input(linea)
         
         if linea != "\n":
             c+=1
     
-    print_symbol_table()
+    #print_symbol_table()
 
 
     """

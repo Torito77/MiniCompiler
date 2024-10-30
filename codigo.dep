@@ -1,13 +1,5 @@
-pf2024 Cruzazul
-decl
 int c=10
 c = c + 1
 c = c + 1
-cad pedro
-
-if c<=3
-
-
-
-int a
+a = 1
 end

@@ -180,7 +180,8 @@ for tok in lexer:
     print("Renglón: "+ str(Renglon) + ", Lexema: "+ str(Lexema) +", Token: "+ str(Token) )
 
     if str(tok.type) != "COMMENT":
-        addTabla(str(tok.value),str(tok.type))
+        if "INT" in ListaLineas[Renglon - 1] or "STRING" in ListaLineas[Renglon - 1] or "BOOLEAN" in ListaLineas[Renglon - 1]:
+            addTabla(str(tok.value),str(tok.type))
 
 
 # Tabla de simbolos
