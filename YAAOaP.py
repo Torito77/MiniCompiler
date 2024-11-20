@@ -10,6 +10,18 @@ precedence = (
     ('right', 'UMINUS'),       # Right-associative unary minus
 )
 
+# List to hold intermediate code
+intermediate_code = []
+
+# Temporary variable counter
+temp_counter = 0
+
+def new_temp():
+    global temp_counter
+    temp_counter += 1
+    return f"t{temp_counter}"
+
+
 # Reglas de parseo
 def p_statement_expr(p):
     '''statement : expression'''
@@ -21,6 +33,7 @@ def p_statement_assign(p):
     if len(p) == 4: #Asig form ID = expression
         if p[1] in tablaSimbolos.keys():
             tablaSimbolos[p[1]] = p[3]  # Actualizar la tabla de simbolos
+            intermediate_code.append(f"{p[1]} = {p[3]}")  # Add the assignment to the intermediate code
             print(f"Assignment: {p[1]} = {p[3]}")
         else:
             print(f"Error: Identifier '{p[1]}' not found")
@@ -28,6 +41,7 @@ def p_statement_assign(p):
     elif len(p) == 5: #Asig form INT ID = expression
         if p[2] in tablaSimbolos.keys():
             tablaSimbolos[p[2]] = p[4]  # Actualizar la tabla de simbolos
+            intermediate_code.append(f"{p[2]} = {p[4]}")  # Add the assignment to the intermediate code
             print(f"Assignment: {p[2]} = {p[4]}")
         else:
             print(f"Error: Identifier '{p[2]}' not found")
@@ -37,6 +51,8 @@ def p_expression_binop(p):
                   | expression RESTA expression
                   | expression MULT expression
                   | expression DIV expression'''
+    temp = new_temp()
+    intermediate_code.append(f"{temp} = {p[1]} {p[2]} {p[3]}")
     if p[2] == '+':
         p[0] = p[1] + p[3]
     elif p[2] == '-':
@@ -45,6 +61,8 @@ def p_expression_binop(p):
         p[0] = p[1] * p[3]
     elif p[2] == '/':
         p[0] = p[1] / p[3]
+    tablaSimbolos[temp] = p[0]  # Update the symbol table with the result of the operation
+
 
 def p_expression_uminus(p):
     '''expression : RESTA expression %prec UMINUS'''
@@ -73,6 +91,11 @@ def p_error(p):
 # Construye el parser
 parser = yacc.yacc()
 
+# Function to print intermediate code
+def print_intermediate_code():
+    for instruction in intermediate_code:
+        print(instruction)
+
 # Test the parser
 def parse_input(input_text):
     lexer.input(input_text)
@@ -90,7 +113,6 @@ def parse_input(input_text):
 # ProbaInador
 if __name__ == "__main__":
 
-    
     ubicacion = 'C:/Users/elzuk/Desktop/pitón/MiniCompiler/codigo.dep'
     archivo = open(ubicacion,'r')
     c = 0
@@ -104,6 +126,8 @@ if __name__ == "__main__":
         if linea != "\n":
             c+=1
     
+    print("\Código Intermedio")
+    print_intermediate_code()
     #print_symbol_table()
 
 
