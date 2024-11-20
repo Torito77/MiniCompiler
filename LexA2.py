@@ -79,7 +79,7 @@ def t_newline(t):
 
 # Manejo de errores
 def t_error(t):
-    print("Error en la linea " + str(t.lineno) + ", Token inválido '%s'"  % t.value[0])
+    print("Error en la linea " + str(t.lexer.lineno) + ", Token inválido '%s'"  % t.value[0])
     t.lexer.skip(1)
 
 # Palabras reservadas
@@ -180,7 +180,7 @@ for tok in lexer:
     print("Renglón: "+ str(Renglon) + ", Lexema: "+ str(Lexema) +", Token: "+ str(Token) )
 
     if str(tok.type) != "COMMENT":
-        if "INT" in ListaLineas[Renglon - 1] or "STRING" in ListaLineas[Renglon - 1] or "BOOLEAN" in ListaLineas[Renglon - 1]:
+        if "INT" in ListaLineas[- 1] or "STRING" in ListaLineas[ - 1] or "BOOLEAN" in ListaLineas[- 1]:
             addTabla(str(tok.value),str(tok.type))
 
 

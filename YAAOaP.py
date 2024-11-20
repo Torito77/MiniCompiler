@@ -107,6 +107,7 @@ if __name__ == "__main__":
     #print_symbol_table()
 
 
+
     """
     while True:
         try:

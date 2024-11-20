@@ -1,6 +1,2 @@
-int c=10
+int c = 10
 c = c + 1
-c = c + 1
-a = 1
-# diana la cubana
-end
