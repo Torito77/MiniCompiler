@@ -126,7 +126,7 @@ if __name__ == "__main__":
         if linea != "\n":
             c+=1
     
-    print("\Código Intermedio")
+    print("\nCódigo Intermedio")
     print_intermediate_code()
     #print_symbol_table()
 
